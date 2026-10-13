@@ -1,0 +1,14 @@
+
+# Python sanal ortami
+.venv/
+
+# Python onbellegi
+__pycache__/
+*.py[cod]
+
+# Gizli bilgiler
+.env
+
+# Editor klasorleri
+.vscode/
+.idea/
