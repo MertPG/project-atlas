@@ -7,5 +7,17 @@ def show_project_info():
 
 
 def calculate_weekly_hours(hours_per_day, days_per_week):
-    """Gunluk ve haftalik calisma suresinden haftalik saati hesaplar."""
+    """Haftalik calisma saatini hesaplar."""
+    if hours_per_day < 0 or days_per_week < 0:
+        raise ValueError("Calisma saatleri negatif olamaz.")
+
     return hours_per_day * days_per_week
+
+
+def safe_calculate_weekly_hours(hours_per_day, days_per_week):
+    """Hatali hesaplamalari kontrollu sekilde ele alir."""
+    try:
+        return calculate_weekly_hours(hours_per_day, days_per_week)
+    except (TypeError, ValueError) as error:
+        print(f"Hesaplama hatasi: {error}")
+        return None
