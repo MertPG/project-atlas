@@ -1,4 +1,6 @@
 
+import pytest
+
 from project_utils import (
     calculate_weekly_hours,
     safe_calculate_weekly_hours,
@@ -14,16 +16,10 @@ def test_zero_hours():
 
 
 def test_negative_hours():
-    try:
+    with pytest.raises(ValueError):
         calculate_weekly_hours(-1, 6)
-    except ValueError:
-        return
-
-    raise AssertionError("Negatif saatler hata vermeliydi.")
 
 
-if __name__ == "__main__":
-    test_weekly_hours()
-    test_zero_hours()
-    test_negative_hours()
-    print("Tum testler basarili!")
+def test_invalid_input():
+    result = safe_calculate_weekly_hours("bes", 6)
+    assert result is None
