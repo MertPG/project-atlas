@@ -1,5 +1,8 @@
 
-from project_utils import show_project_info, calculate_weekly_hours
+from project_utils import (
+    show_project_info,
+    safe_calculate_weekly_hours,
+)
 
 
 def main():
@@ -10,8 +13,21 @@ def main():
 
     print("-" * 35)
 
-    hours = calculate_weekly_hours(5, 6)
-    print(f"Haftalik toplam calisma hedefi: {hours} saat")
+    try:
+        hours_per_day = float(input("Gunluk kac saat calisacaksin? "))
+        days_per_week = int(input("Haftada kac gun calisacaksin? "))
+    except ValueError:
+        print("Hatali giris! Lutfen sayisal degerler gir.")
+        return
+
+    weekly_hours = safe_calculate_weekly_hours(
+        hours_per_day,
+        days_per_week,
+    )
+
+    if weekly_hours is not None:
+        print("-" * 35)
+        print(f"Haftalik toplam calisma hedefi: {weekly_hours:g} saat")
 
 
 if __name__ == "__main__":
