@@ -1,4 +1,5 @@
 import pytest
+import logging
 
 from project_utils import (
     calculate_weekly_hours,
@@ -46,3 +47,18 @@ def test_boolean_hours_rejected():
 def test_decimal_days_rejected():
     with pytest.raises(TypeError):
         calculate_weekly_hours(5, 6.5)
+
+def test_successful_calculation_logs_info(caplog):
+    with caplog.at_level(logging.INFO, logger="project_utils"):
+        result = calculate_weekly_hours(5, 6)
+
+    assert result == 30
+    assert "Haftalik calisma hedefi hesaplandi" in caplog.text
+
+
+def test_invalid_input_logs_warning(caplog):
+    with caplog.at_level(logging.WARNING, logger="project_utils"):
+        with pytest.raises(ValueError):
+            calculate_weekly_hours(-1, 6)
+
+    assert "Negatif gunluk calisma saati girildi" in caplog.text
