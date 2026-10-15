@@ -5,8 +5,7 @@ on:
   push:
     branches:
       - main
-      - feature-logging
-      - feature-logging-tests
+      - feature/docker-ci
   pull_request:
     branches:
       - main
@@ -27,5 +26,11 @@ jobs:
       - name: Bagimliliklari yukle
         run: pip install -r requirements.txt
 
-      - name: Testleri calistir
+      - name: Python testlerini calistir
         run: python -m pytest -v
+
+      - name: Docker imajini olustur
+        run: docker build -t project-atlas:ci .
+
+      - name: Docker icinde testleri calistir
+        run: docker run --rm project-atlas:ci python -m pytest -v
