@@ -12,3 +12,4 @@ __pycache__/
 # Editor klasorleri
 .vscode/
 .idea/
+project_atlas.log

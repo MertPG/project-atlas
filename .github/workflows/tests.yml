@@ -1,0 +1,31 @@
+
+name: Project Atlas Tests
+
+on:
+  push:
+    branches:
+      - main
+      - feature-logging
+      - feature-logging-tests
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository kodunu indir
+        uses: actions/checkout@v4
+
+      - name: Python ortamini kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Bagimliliklari yukle
+        run: pip install -r requirements.txt
+
+      - name: Testleri calistir
+        run: python -m pytest -v
