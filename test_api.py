@@ -83,3 +83,48 @@ def test_calculate_weekly_hours_negative_hours():
     )
 
     assert response.status_code == 422
+
+
+def test_calculate_weekly_hours_missing_field():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": 5,
+        },
+    )
+
+    assert response.status_code == 422
+
+    data = response.json()
+
+    assert "detail" in data
+    assert isinstance(data["detail"], list)
+    assert any(
+        error["loc"][-1] == "days_per_week"
+        for error in data["detail"]
+    )
+
+
+
+def test_calculate_weekly_hours_string_instead_of_number():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": "abc",
+            "days_per_week": 5,
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_calculate_weekly_hours_days_above_limit():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": 5,
+            "days_per_week": 8,
+        },
+    )
+
+    assert response.status_code == 422
