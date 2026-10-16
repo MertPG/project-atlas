@@ -12,9 +12,17 @@ app = FastAPI(
 
 
 class WeeklyHoursRequest(BaseModel):
-    hours_per_day: float = Field(ge=0, description="Günlük çalışma saati")
-    days_per_week: int = Field(ge=0, le=7, description="Haftalık çalışma günü")
-
+    hours_per_day: float = Field(
+        ge=0,
+        strict=True,
+        description="Günlük çalışma saati",
+    )
+    days_per_week: int = Field(
+        ge=0,
+        le=7,
+        strict=True,
+        description="Haftalık çalışma günü",
+    )
 class WeeklyHoursResponse(BaseModel):
     hours_per_day: float
     days_per_week: int

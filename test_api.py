@@ -128,3 +128,39 @@ def test_calculate_weekly_hours_days_above_limit():
     )
 
     assert response.status_code == 422
+
+
+def test_calculate_weekly_hours_decimal_hours():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": 5.5,
+            "days_per_week": 5,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["total_hours"] == 27.5
+
+def test_calculate_weekly_hours_numeric_string():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": "5",
+            "days_per_week": 5,
+        },
+    )
+
+    assert response.status_code == 422
+
+def test_calculate_weekly_hours_decimal_days_rejected():
+    response = client.post(
+        "/calculate-weekly-hours",
+        json={
+            "hours_per_day": 5,
+            "days_per_week": 5.5,
+        },
+    )
+
+    assert response.status_code == 422
+
